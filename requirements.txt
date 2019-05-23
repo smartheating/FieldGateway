@@ -1,3 +1,4 @@
 pytest
 python-eq3bt
-pykka
+requests
+flask
