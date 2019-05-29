@@ -25,7 +25,7 @@ class TestSensor:
         assert len(list_msg) == 1
         assert msg['module_name'] == 'test_sensor'
         assert msg['type'] == 'int'
-        assert msg['value'] == 23
+        assert msg['value'] == '23'
 
     def test_float_message(self):
         """
@@ -34,7 +34,7 @@ class TestSensor:
         msg_list = sensor.create_messages(23.3)
         msg = json.loads(msg_list[0])
         assert msg['type'] == 'float'
-        assert msg['value'] == 23.3
+        assert msg['value'] == '23.3'
 
     def test_str_message(self):
         """
@@ -53,7 +53,7 @@ class TestSensor:
         msg_0 = json.loads(msg_list[0])
         msg_1 = json.loads(msg_list[1])
         assert msg_0['type'] == 'float'
-        assert msg_0['value'] == 23.3
+        assert msg_0['value'] == '23.3'
         assert msg_1['type'] == 'str'
         assert msg_1['value'] == 'wat'
 

@@ -67,7 +67,7 @@ class Sensor(Module, Thread):
                 'module_name': self.module_name,
                 'timestamp': time.time(),
                 'type': type(val).__name__,
-                'value': val
+                'value': str(val)
             })
         if type(data) == list:
             msg_values = [_create(val) for val in data]
