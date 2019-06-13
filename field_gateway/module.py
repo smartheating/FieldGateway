@@ -2,18 +2,89 @@ from abc import abstractmethod
 import json
 from threading import Thread, Event
 import requests
-import time
+import datetime
 
 
 class Module:
-    module_id = None
-    module_name = None
+    module_type = ''
+    module_id = -1
+    module_ip = ''
+    module_name = ''
+    module_port = 5000
+    reads_per_minute = -1
+    script_path = ''
+    send_interval = -1
+    value_type = ''
+    cloud_gateway_ip = ''
+    cloud_gateway_port = 9001
+    response_callback = None
+
+    def _create_register_message(self):
+        return json.dumps({
+            'device_type': self.module_type,
+            'id': self.module_id,
+            'ip': self.module_ip,
+            'module_name': self.module_name,
+            'port': self.module_port,
+            'reads_per_minute': self.reads_per_minute,
+            'script_path': self.script_path,
+            'send_interval': self.send_interval,
+            'value_type': self.value_type
+        })
+
+    def register(self):
+        response = requests.post(
+            url='http://{}:{}/repository/devices'.format(self.cloud_gateway_ip, self.cloud_gateway_port),
+            data=self._create_register_message(),
+            headers={'content-type': 'application/json'})
+        if self.response_callback is not None:
+            try:
+                self.response_callback(response)
+            except:
+                pass
+
+    def set_response_callback(self, func):
+        self.response_callback = func
+
+    def set_module_type(self, module_type: str):
+        self.module_type = module_type
 
     def set_module_id(self, module_id: int):
         self.module_id = module_id
 
+    def set_module_ip(self, module_ip: str):
+        self.module_ip = module_ip
+
     def set_module_name(self, name: str):
         self.module_name = name
+
+    def set_module_port(self, module_port: int):
+        self.module_port = module_port
+
+    def set_reads_per_minute(self, reads_per_minute: int):
+        self.reads_per_minute = reads_per_minute
+
+    def set_script_path(self, script_path: str):
+        self.script_path = script_path
+
+    def set_send_interval(self, send_interval: float):
+        self.send_interval = send_interval
+
+    def set_value_type(self, value_type: str):
+        self.value_type = value_type
+
+    def set_cloud_gateway_ip(self, cloud_gateway_ip: str):
+        self.cloud_gateway_ip = cloud_gateway_ip
+
+    def set_cloud_gateway_port(self, cloud_gateway_port: int):
+        self.cloud_gateway_port = cloud_gateway_port
+
+    @abstractmethod
+    def set_params(self, params):
+        raise NotImplementedError
+
+    def get_number_of_reads_per_send_interval(self):
+        return int(self.reads_per_minute / 60 * self.send_interval)
 
 
 class Sensor(Module, Thread):
@@ -24,9 +95,6 @@ class Sensor(Module, Thread):
         self.stopped = Event()
         self.send_interval = 10
         self.reads_per_minute = 60
-
-    cloud_gateway_ip = None
-    cloud_gateway_port = None
 
     @abstractmethod
     def set_params(self, params):
@@ -42,31 +110,26 @@ class Sensor(Module, Thread):
             self._read_and_send()
 
     def _read_and_send(self):
-        list_msg = self.create_messages(
+        list_msg = self.create_event_messages(
             self.get_data())
         for msg in list_msg:
-            requests.post('http://{}:{}/sensor_reading'.format(self.cloud_gateway_ip, self.cloud_gateway_port),
-                          data=msg)
+            response = requests.post(
+                url='http://{}:{}/repository/events'.format(self.cloud_gateway_ip, self.cloud_gateway_port),
+                data=msg,
+                headers={'content-type': 'application/json'})
+            if self.response_callback is not None:
+                try:
+                    self.response_callback(response)
+                except:
+                    pass
 
-    def set_send_interval(self, send_interval):
-        self.send_interval = send_interval
-
-    def set_reads_per_minute(self, reads_per_minute):
-        self.reads_per_minute = reads_per_minute
-
-    def set_cloud_gateway_ip(self, cloud_gateway_ip: str):
-        self.cloud_gateway_ip = cloud_gateway_ip
-
-    def set_cloud_gateway_port(self, cloud_gateway_port: int):
-        self.cloud_gateway_port = cloud_gateway_port
-
-    def create_messages(self, data):
+    def create_event_messages(self, data):
         def _create(val):
             return json.dumps({
                 'module_id': self.module_id,
                 'module_name': self.module_name,
-                'timestamp': time.time(),
-                'type': type(val).__name__,
+                'timestamp': datetime.datetime.now().isoformat(),
+                'value_type': str(type(val).__name__),
                 'value': str(val)
             })
         if type(data) == list:
@@ -79,9 +142,9 @@ class Sensor(Module, Thread):
                              'values of the following types: int, float, str, bool')
         return msg_values
 
-    def get_number_of_reads_per_send_interval(self):
-        return int(self.reads_per_minute / 60 * self.send_interval)
-
 
 class Actuator(Module):
-    pass
+    @abstractmethod
+    def set_params(self, params):
+        raise NotImplementedError
+

@@ -13,6 +13,7 @@ class SensorDummy1(Sensor):
         self.param_2 = params['param_2']
 
     def get_data(self) -> list:
+        self.count += 1
         print('get data was called {} times'.format(self.count))
         val1 = []
         val2 = []

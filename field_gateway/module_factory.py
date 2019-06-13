@@ -1,5 +1,4 @@
-import yaml
-from module import Sensor
+from module import Sensor, Actuator, Module
 from importlib import invalidate_caches
 
 
@@ -34,6 +33,24 @@ class ModuleFactory:
         class_names = [k for k in keys_new_objects if _is_sensor_subclass(globals().get(k))]
         return globals().get(class_names[0])
 
+    def _add_module_conf(self, module: Module, conf: dict) -> Module:
+        module.set_module_type('sensor' if issubclass(module.__class__, Sensor) else 'actuator')
+        module.set_module_id(conf.get('module_id', ''))
+        module.set_module_ip(conf.get('module_ip', ''))
+        module.set_module_name(conf.get('module_name', ''))
+        module.set_module_port(conf.get('module_port', 9001))
+        module.set_reads_per_minute(conf.get('reads_per_minute', 60))
+        module.set_script_path(conf.get('script_path', ''))
+        module.set_send_interval(conf.get('send_interval', 10))
+        module.set_value_type(conf.get('value_type', ''))
+        module.set_cloud_gateway_ip(self.conf.get('cloud_gateway_ip', ''))
+        module.set_cloud_gateway_port(self.conf.get('cloud_gateway_port', ''))
+        module.set_params(conf.get('params', ''))
+
+    def get_actuators(self) -> [Actuator]:
+        act_conf = self._get_element_from_path(self.conf, ['actuators'])
+        acts = []
+
     def get_sensors(self) -> [Sensor]:
         sensor_conf = self._get_element_from_path(self.conf, ['sensors'])
         sensors = []
@@ -41,12 +58,8 @@ class ModuleFactory:
             with open(s_conf['script_path'], 'r') as f:
                 script = f.read()
             sensor = self._load_module(script)()
-            sensor.set_params(s_conf['params'])
-            sensor.set_module_id(s_conf['module_id'])
-            sensor.set_module_name(s_conf['module_name'])
-            sensor.set_reads_per_minute(s_conf['reads_per_minute'])
-            sensor.set_reads_per_minute(s_conf['reads_per_minute'])
-            sensor.set_send_interval(s_conf['send_interval'])
+            self._add_module_conf(sensor, s_conf)
+
             sensors.append(sensor)
         return sensors
 
