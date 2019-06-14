@@ -21,7 +21,7 @@ class TestModuleFactoryAWS:
         :return:
         """
         with open(str(root_path / 'tests' / 'test_data' / 'test_config_1.yaml'), 'r') as f:
-            conf = yaml.load(f)
+            conf = yaml.safe_load(f)
         conf['cloud_gateway_ip'] = cloud_gateway_ip
         conf['cloud_gateway_port'] = cloud_gateway_port
         device_ids_orig= {'Test Sensor 1': 11}

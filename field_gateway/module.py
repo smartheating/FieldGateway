@@ -47,7 +47,6 @@ class Module:
         else:
             return None
 
-
     def set_response_callback(self, func):
         self.response_callback = func
 

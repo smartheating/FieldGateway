@@ -12,7 +12,7 @@ if __name__ == '__main__':
 
     # load the config file
     with open(env_config, 'r') as f:
-        conf = yaml.load(f)
+        conf = yaml.safe_load(f)
 
     # load the device ids
     device_ids = read_device_ids()
