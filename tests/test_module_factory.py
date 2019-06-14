@@ -11,7 +11,7 @@ os.chdir(str(root_path))
 class TestModuleFactory:
 
     def test_get_sensor(self):
-        with open(root_path / 'tests' / 'test_data' / 'test_config_1.yaml', 'r') as f:
+        with open(str(root_path / 'tests' / 'test_data' / 'test_config_1.yaml'), 'r') as f:
             conf = yaml.load(f)
         device_ids = {'Test Sensor 1': 11, 'Test Sensor 2': 12}
         factory = ModuleFactory(conf, device_ids)

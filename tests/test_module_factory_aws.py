@@ -20,7 +20,7 @@ class TestModuleFactoryAWS:
         In this case, the module factory should register new devices and update the device ids
         :return:
         """
-        with open(root_path / 'tests' / 'test_data' / 'test_config_1.yaml', 'r') as f:
+        with open(str(root_path / 'tests' / 'test_data' / 'test_config_1.yaml'), 'r') as f:
             conf = yaml.load(f)
         conf['cloud_gateway_ip'] = cloud_gateway_ip
         conf['cloud_gateway_port'] = cloud_gateway_port
