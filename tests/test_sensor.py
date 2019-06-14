@@ -89,9 +89,9 @@ class TestSensor:
         sensor.register()
         time.sleep(1)
         for msg in messages:
-            print(json.loads(msg))
+            print(json.loads(msg.decode()))
         assert len(messages) > 0
-        assert json.loads(messages[0])['module_name'] == 'test_get_sensor'
+        assert json.loads(messages[0].decode())['module_name'] == 'test_get_sensor'
         sensor.stopped.set()
 
     def test_event_sending(self):
@@ -107,7 +107,7 @@ class TestSensor:
             sensor.start()
             time.sleep(1)
             for msg in messages:
-                print(json.loads(msg))
+                print(json.loads(msg.decode()))
             assert len(messages) > 0
-            assert json.loads(messages[0])['module_name'] == 'test_get_sensor'
+            assert json.loads(messages[0].decode())['module_name'] == 'test_get_sensor'
             sensor.stopped.set()

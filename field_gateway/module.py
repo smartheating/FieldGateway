@@ -43,7 +43,7 @@ class Module:
             except:
                 pass
         if response.ok:
-            return json.loads(response.content)['id']
+            return json.loads(response.content.decode())['id']
         else:
             return None
 

@@ -32,7 +32,7 @@ class TestSensorAWS:
         sensor.register()
         time.sleep(wait_seconds)
         for response in responses:
-            print(json.loads(response.content))
+            print(json.loads(response.content.decode()))
         assert len(responses) > 0
         assert json.loads(responses[0].content)['module_name'] == 'test_get_sensor'
         sensor.stopped.set()
@@ -47,7 +47,7 @@ class TestSensorAWS:
         sensor.start()
         time.sleep(wait_seconds)
         for msg in responses:
-            print(json.loads(msg.content))
+            print(json.loads(msg.content.decode()))
         assert len(responses) > 0
-        assert json.loads(responses[0].content)['value_type'] == 'float'
+        assert json.loads(responses[0].content.decode())['value_type'] == 'float'
         sensor.stopped.set()
