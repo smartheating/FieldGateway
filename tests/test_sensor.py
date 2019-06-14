@@ -29,7 +29,7 @@ class TestSensor:
         def receive_device_registration():
             messages.append(request.get_data())
             return json.dumps({'success': True, 'id': 0}), 200, {'ContentType': 'application/json'},
-        return Thread(target=app.run, kwargs={'host': host, 'port': port}), messages
+        return Thread(target=app.run, kwargs={'host': host, 'port': port}, daemon=True), messages
 
     def test_int_message(self):
         """
@@ -93,21 +93,23 @@ class TestSensor:
         assert len(messages) > 0
         assert json.loads(messages[0].decode())['module_name'] == 'test_get_sensor'
         sensor.stopped.set()
+        test_api.join(timeout=1)
 
     def test_event_sending(self):
-            """
-            Tests if the sensor module actually sends the values from get_data and sends them via http
-            """
-            sensor = self._get_dummy_sensor()
-            sensor.set_cloud_gateway_port(5002)
-            test_api, messages = self._get_test_api(
-                sensor.cloud_gateway_ip, sensor.cloud_gateway_port, '/repository/events')
-            test_api.start()
-            time.sleep(1)
-            sensor.start()
-            time.sleep(1)
-            for msg in messages:
-                print(json.loads(msg.decode()))
-            assert len(messages) > 0
-            assert json.loads(messages[0].decode())['module_name'] == 'test_get_sensor'
-            sensor.stopped.set()
+        """
+        Tests if the sensor module actually sends the values from get_data and sends them via http
+        """
+        sensor = self._get_dummy_sensor()
+        sensor.set_cloud_gateway_port(5002)
+        test_api, messages = self._get_test_api(
+            sensor.cloud_gateway_ip, sensor.cloud_gateway_port, '/repository/events')
+        test_api.start()
+        time.sleep(1)
+        sensor.start()
+        time.sleep(1)
+        for msg in messages:
+            print(json.loads(msg.decode()))
+        assert len(messages) > 0
+        assert json.loads(messages[0].decode())['module_name'] == 'test_get_sensor'
+        sensor.stopped.set()
+        test_api.join(timeout=1)
