@@ -5,7 +5,7 @@ import yaml
 
 
 root_path = get_project_root()
-os.chdir(root_path)
+os.chdir(str(root_path))
 
 
 class TestModuleFactory:

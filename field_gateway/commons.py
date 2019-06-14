@@ -7,6 +7,7 @@ def read_yaml(path):
         result = yaml.safe_load(f)
     return result
 
+
 def read_device_ids():
     import json
     device_ids = None
