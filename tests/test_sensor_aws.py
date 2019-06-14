@@ -1,8 +1,6 @@
 from test_data.test_sensor_1 import SensorDummy1
-from threading import Thread
 import json
 import time
-from flask import Flask, request
 
 cloud_gateway_ip = '54.165.131.127'
 cloud_gateway_port = 9001
@@ -34,7 +32,7 @@ class TestSensorAWS:
         for response in responses:
             print(json.loads(response.content.decode()))
         assert len(responses) > 0
-        assert json.loads(responses[0].content)['module_name'] == 'test_get_sensor'
+        assert json.loads(responses[0].content.decode())['module_name'] == 'test_get_sensor'
         sensor.stopped.set()
 
     def test_event_sending(self):
