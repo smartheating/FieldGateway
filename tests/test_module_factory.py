@@ -10,10 +10,11 @@ os.chdir(root_path)
 
 class TestModuleFactory:
 
-    def test_sensor(self):
+    def test_get_sensor(self):
         with open(root_path / 'tests' / 'test_data' / 'test_config_1.yaml', 'r') as f:
             conf = yaml.load(f)
-        factory = ModuleFactory(conf)
+        device_ids = {'Test Sensor 1': 11, 'Test Sensor 2': 12}
+        factory = ModuleFactory(conf, device_ids)
         sensors = factory.get_sensors()
 
         # There should be two sensors..
@@ -23,7 +24,8 @@ class TestModuleFactory:
 
         # Tests if the factory sets the default module parameters
         assert sensor_1.module_type == 'sensor'
-        assert sensor_1.module_id == 0
+        assert sensor_1.module_id == 11
+        assert sensor_2.module_id == 12
         assert sensor_1.module_ip == '0.0.0.0'
         assert sensor_1.module_port == '12345'
         assert sensor_1.module_name == 'Test Sensor 1'

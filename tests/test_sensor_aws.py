@@ -14,23 +14,13 @@ class TestSensorAWS:
     @staticmethod
     def _get_dummy_sensor():
         sensor = SensorDummy1()
-        sensor.set_module_id(1)
+        sensor.set_module_name('test_get_sensor')
         sensor.set_send_interval(1)
         sensor.set_reads_per_minute(480)
-        sensor.set_module_name('test_sensor')
+        sensor.set_script_path('/dummy/path/to/script')
         sensor.set_cloud_gateway_ip(cloud_gateway_ip)
         sensor.set_cloud_gateway_port(cloud_gateway_port)
         return sensor
-
-    @staticmethod
-    def _get_test_api(host, port, route):
-        app = Flask('test_api')
-        messages = []
-        @app.route(route, methods=['POST'])
-        def receive_device_registration():
-            messages.append(request.get_data())
-            return json.dumps({'success': True}), 200, {'ContentType': 'application/json'},
-        return Thread(target=app.run, kwargs={'host': host, 'port': port}), messages
 
     def test_device_registration(self):
         """
@@ -44,7 +34,7 @@ class TestSensorAWS:
         for response in responses:
             print(json.loads(response.content))
         assert len(responses) > 0
-        assert json.loads(responses[0].content)['module_name'] == 'test_sensor'
+        assert json.loads(responses[0].content)['module_name'] == 'test_get_sensor'
         sensor.stopped.set()
 
     def test_event_sending(self):

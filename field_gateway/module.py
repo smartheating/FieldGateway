@@ -22,7 +22,7 @@ class Module:
     def _create_register_message(self):
         return json.dumps({
             'device_type': self.module_type,
-            'id': self.module_id,
+            'id': 0,
             'ip': self.module_ip,
             'module_name': self.module_name,
             'port': self.module_port,
@@ -42,6 +42,11 @@ class Module:
                 self.response_callback(response)
             except:
                 pass
+        if response.ok:
+            return json.loads(response.content)['id']
+        else:
+            return None
+
 
     def set_response_callback(self, func):
         self.response_callback = func

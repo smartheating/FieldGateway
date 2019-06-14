@@ -16,7 +16,7 @@ class TestSensor:
         sensor.set_module_id(1)
         sensor.set_send_interval(0.5)
         sensor.set_reads_per_minute(480)
-        sensor.set_module_name('test_sensor')
+        sensor.set_module_name('test_get_sensor')
         sensor.set_cloud_gateway_ip(cloud_gateway_ip)
         sensor.set_cloud_gateway_port(cloud_gateway_port)
         return sensor
@@ -28,7 +28,7 @@ class TestSensor:
         @app.route(route, methods=['POST'])
         def receive_device_registration():
             messages.append(request.get_data())
-            return json.dumps({'success': True}), 200, {'ContentType': 'application/json'},
+            return json.dumps({'success': True, 'id': 0}), 200, {'ContentType': 'application/json'},
         return Thread(target=app.run, kwargs={'host': host, 'port': port}), messages
 
     def test_int_message(self):
@@ -39,7 +39,7 @@ class TestSensor:
         list_msg = sensor.create_event_messages(23)
         msg = json.loads(list_msg[0])
         assert len(list_msg) == 1
-        assert msg['module_name'] == 'test_sensor'
+        assert msg['module_name'] == 'test_get_sensor'
         assert msg['value_type'] == 'int'
         assert msg['value'] == '23'
 
@@ -91,7 +91,7 @@ class TestSensor:
         for msg in messages:
             print(json.loads(msg))
         assert len(messages) > 0
-        assert json.loads(messages[0])['module_name'] == 'test_sensor'
+        assert json.loads(messages[0])['module_name'] == 'test_get_sensor'
         sensor.stopped.set()
 
     def test_event_sending(self):
@@ -109,5 +109,5 @@ class TestSensor:
             for msg in messages:
                 print(json.loads(msg))
             assert len(messages) > 0
-            assert json.loads(messages[0])['module_name'] == 'test_sensor'
+            assert json.loads(messages[0])['module_name'] == 'test_get_sensor'
             sensor.stopped.set()

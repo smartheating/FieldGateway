@@ -1,9 +1,9 @@
 cloud_gateway_ip: 192.168.178.1
+cloud_gateway_port: 9001
 sensors:
   - script_path: 'tests/test_data/test_sensor_1.py'
     send_interval: 1.5
     reads_per_minute: 120
-    module_id: 0
     module_ip: '0.0.0.0'
     module_port: '12345'
     module_name: 'Test Sensor 1'
@@ -13,7 +13,6 @@ sensors:
   - script_path: 'tests/test_data/test_sensor_2.py'
     send_interval: 1.2
     reads_per_minute: 125
-    module_id: 1
     module_name: 'Test Sensor 2'
     params:
       param_a: 27

@@ -1,10 +1,11 @@
 from module import Sensor, Actuator, Module
 from importlib import invalidate_caches
-
+from commons import store_device_ids
 
 class ModuleFactory:
-    def __init__(self, conf):
+    def __init__(self, conf: dict, device_ids: dict):
         self.conf = conf
+        self.device_ids = device_ids
 
     @staticmethod
     def _get_element_from_path(dictionary, path_list):
@@ -35,7 +36,6 @@ class ModuleFactory:
 
     def _add_module_conf(self, module: Module, conf: dict) -> Module:
         module.set_module_type('sensor' if issubclass(module.__class__, Sensor) else 'actuator')
-        module.set_module_id(conf.get('module_id', ''))
         module.set_module_ip(conf.get('module_ip', ''))
         module.set_module_name(conf.get('module_name', ''))
         module.set_module_port(conf.get('module_port', 9001))
@@ -46,6 +46,14 @@ class ModuleFactory:
         module.set_cloud_gateway_ip(self.conf.get('cloud_gateway_ip', ''))
         module.set_cloud_gateway_port(self.conf.get('cloud_gateway_port', ''))
         module.set_params(conf.get('params', ''))
+
+    def _set_module_name_and_eventually_register(self, module):
+        if module.module_name in self.device_ids.keys():
+            module_id = self.device_ids.get(module.module_name)
+        else:
+            module_id = module.register()
+        self.device_ids[module.module_name] = module_id
+        module.set_module_id(module_id)
 
     def get_actuators(self) -> [Actuator]:
         act_conf = self._get_element_from_path(self.conf, ['actuators'])
@@ -59,6 +67,7 @@ class ModuleFactory:
                 script = f.read()
             sensor = self._load_module(script)()
             self._add_module_conf(sensor, s_conf)
+            self._set_module_name_and_eventually_register(sensor)
 
             sensors.append(sensor)
         return sensors
