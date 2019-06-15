@@ -120,8 +120,13 @@ class Sensor(Module, Thread):
 
     def _read_and_send(self):
         logging.debug('{} requesting data'.format(self.module_name))
-        list_msg = self.create_event_messages(
-            self.get_data())
+        try:
+            list_msg = self.create_event_messages(
+                self.get_data())
+        except IndexError as e:
+            logging.error(e)
+            logging.error('Hint: You might have forgotten to set the tags in config.yaml')
+            raise e
         for msg in list_msg:
             logging.debug(msg)
             response = requests.post(
