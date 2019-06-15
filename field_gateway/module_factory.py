@@ -1,6 +1,6 @@
 from module import Sensor, Actuator, Module
 from importlib import invalidate_caches
-from commons import store_device_ids
+from logging import info
 
 class ModuleFactory:
     def __init__(self, conf: dict, device_ids: dict):
@@ -50,8 +50,10 @@ class ModuleFactory:
     def _set_module_name_and_eventually_register(self, module):
         if module.module_name in self.device_ids.keys():
             module_id = self.device_ids.get(module.module_name)
+            info('Found module {} in cache. Id: {}'.format(module.module_name, module_id))
         else:
             module_id = module.register()
+            info("Didn't find module {} in cache. Got module_id {} from backend".format(module.module_name, module_id))
         self.device_ids[module.module_name] = module_id
         module.set_module_id(module_id)
 

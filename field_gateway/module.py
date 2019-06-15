@@ -3,6 +3,7 @@ import json
 from threading import Thread, Event
 import requests
 import datetime
+from tabulate import tabulate
 
 
 class Module:
@@ -89,7 +90,6 @@ class Module:
 
     def get_number_of_reads_per_send_interval(self):
         return int(self.reads_per_minute / 60 * self.send_interval)
-
 
 class Sensor(Module, Thread):
 

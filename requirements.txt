@@ -3,3 +3,4 @@ python-eq3bt
 requests
 pyyaml
 flask
+tabulate

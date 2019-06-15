@@ -1,4 +1,4 @@
-from commons import get_project_root
+from commons import get_project_root, store_device_ids, print_modules
 from module_factory import ModuleFactory
 from module import Module
 from copy import deepcopy
@@ -28,6 +28,7 @@ class TestModuleFactoryAWS:
         device_ids = deepcopy(device_ids_orig)
         factory = ModuleFactory(conf, device_ids)
         sensors = factory.get_sensors()
+        print_modules(sensors)
 
         # There should be two sensors..
         assert len(sensors) == 2
@@ -43,4 +44,6 @@ class TestModuleFactoryAWS:
         # Test if the ids were set correctly
         assert sensor_1.module_id == device_ids[sensor_1.module_name]
         assert sensor_2.module_id == device_ids[sensor_2.module_name]
+
+        store_device_ids(device_ids)
 

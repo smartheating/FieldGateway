@@ -1,7 +1,7 @@
 from os import environ
 from commons import read_device_ids
 import yaml
-from commons import store_device_ids
+from commons import store_device_ids, print_modules
 from module_factory import ModuleFactory
 from threading import Event
 
@@ -20,7 +20,7 @@ if __name__ == '__main__':
     # load the sensor modules'
     module_factory = ModuleFactory(conf, device_ids)
     sensors = module_factory.get_sensors()
-
+    print_modules(sensors)
     # store updated device ids
     store_device_ids(module_factory.device_ids)
 
