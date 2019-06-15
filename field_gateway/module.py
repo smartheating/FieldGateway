@@ -114,6 +114,7 @@ class Sensor(Module, Thread):
             self._read_and_send()
 
     def _read_and_send(self):
+        logging.DEBUG('{} requesting data'.format(self.module_name))
         list_msg = self.create_event_messages(
             self.get_data())
         for msg in list_msg:
