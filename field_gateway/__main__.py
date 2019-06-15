@@ -32,6 +32,8 @@ if __name__ == '__main__':
     store_device_ids(module_factory.device_ids)
 
     for sensor in sensors:
+        logging.info('{} testing with parameters'.format(sensor.module_name))
+        logging.info('{} test result: {}'.format(sensor.module_name, sensor.get_data()))
         logging.info('{} starting'.format(sensor.module_name))
         sensor.start()
     try:
