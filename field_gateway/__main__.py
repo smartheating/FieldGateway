@@ -8,7 +8,7 @@ import logging
 
 logging.basicConfig(
     filename=str(get_project_root() / 'log_field_gateway.log'),
-    level=logging.INFO,
+    level=logging.DEBUG,
     format='%(asctime)-15s %(message)s')
 logging.info("waaaaaaat")
 if __name__ == '__main__':

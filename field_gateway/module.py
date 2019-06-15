@@ -3,7 +3,7 @@ import json
 from threading import Thread, Event
 import requests
 import datetime
-from tabulate import tabulate
+import logging
 
 
 class Module:
@@ -117,6 +117,7 @@ class Sensor(Module, Thread):
         list_msg = self.create_event_messages(
             self.get_data())
         for msg in list_msg:
+            logging.debug(msg)
             response = requests.post(
                 url='http://{}:{}/repository/events'.format(self.cloud_gateway_ip, self.cloud_gateway_port),
                 data=msg,
