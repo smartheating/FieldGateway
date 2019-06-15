@@ -15,7 +15,7 @@ class SensorMic(Sensor):
         reads = []
         n = self.get_number_of_reads_per_send_interval()
         for _ in range(n):
-            reads.append(digitalRead(self.port))
+            reads.append(analogRead(self.port))
             time.sleep(float(self.send_interval) / n)
         val = mean(reads)
         return val
