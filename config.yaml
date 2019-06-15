@@ -1,11 +1,12 @@
 cloud_gateway_ip: '52.207.119.17'
 cloud_gateway_port: 9001
 sensors:
-  - script_path: 'sensors/sensor_pir.py'
+  - script_path: 'sensors/sensor_dht.py'
     send_interval: 10
-    reads_per_minute: 240
+    reads_per_minute: 40
     module_id: 0
-    module_name: 'pir_0'
+    module_name: 'dht_0'
     params:
-      port: 8
+      port: 7
+      dht_type: 0
 

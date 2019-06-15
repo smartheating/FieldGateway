@@ -14,9 +14,5 @@ class SensorDHT(Sensor):
 
     def get_data(self) -> list:
         reads = []
-        n = self.get_number_of_reads_per_send_interval()
-        for _ in range(n):
-            reads.append(dht(self.port, self.dht_type))
-            time.sleep(float(self.send_interval) / n)
-        val = mean(reads)
+        val = dht(self.port, self.dht_type)
         return val

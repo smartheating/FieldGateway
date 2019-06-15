@@ -2,7 +2,7 @@ from module import Sensor
 from grovepi import pinMode, analogRead
 import time
 from statistics import mean
-
+import logging
 
 class SensorMic(Sensor):
     port = None
@@ -18,4 +18,5 @@ class SensorMic(Sensor):
             reads.append(analogRead(self.port))
             time.sleep(float(self.send_interval) / n)
         val = mean(reads)
+        logging.info('{}: read values: {}'.format(self.module_name, reads))
         return val
