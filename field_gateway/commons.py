@@ -1,11 +1,26 @@
 from pathlib import Path
 from module import Module
 
+
 def read_yaml(path):
     import yaml
     with open(path, 'r') as f:
         result = yaml.safe_load(f)
     return result
+
+
+def prepare_logging():
+    import logging
+    from os import environ
+    logging.basicConfig(
+        level=logging.getLevelName(environ.get('LOG_LEVEL', 'INFO')),
+        format='%(asctime)-15s %(message)s',
+        handlers=[
+            logging.FileHandler(filename=str(get_project_root() / 'log_field_gateway.log')),
+            logging.StreamHandler()]
+    )
+    logging.info("\nStarted FieldGateway\n====================")
+    logging.debug("WAAAAAAAAAAAT")
 
 
 def read_device_ids():

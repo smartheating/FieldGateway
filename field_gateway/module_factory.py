@@ -2,6 +2,7 @@ from module import Sensor, Actuator, Module
 from importlib import invalidate_caches
 from logging import info
 
+
 class ModuleFactory:
     def __init__(self, conf: dict, device_ids: dict):
         self.conf = conf
@@ -34,7 +35,7 @@ class ModuleFactory:
         class_names = [k for k in keys_new_objects if _is_sensor_subclass(globals().get(k))]
         return globals().get(class_names[0])
 
-    def _add_module_conf(self, module: Module, conf: dict) -> Module:
+    def _add_module_conf(self, module: Module, conf: dict):
         module.set_module_type('sensor' if issubclass(module.__class__, Sensor) else 'actuator')
         module.set_module_ip(conf.get('module_ip', ''))
         module.set_module_name(conf.get('module_name', ''))
