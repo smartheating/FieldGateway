@@ -1,5 +1,5 @@
 from module import Sensor
-from grovepi import pinMode, analogRead
+from grovepi import pinMode, digitalRead
 
 
 class SensorPIR(Sensor):
@@ -10,6 +10,6 @@ class SensorPIR(Sensor):
         pinMode(self.port, 'INPUT')
 
     def get_data(self):
-        val = analogRead(self.port)
+        val = digitalRead(self.port)
         print(val)
         return val
