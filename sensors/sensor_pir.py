@@ -10,4 +10,6 @@ class SensorPIR(Sensor):
         pinMode(self.port, 'INPUT')
 
     def get_data(self):
-        return analogRead(self.port)
+        val = analogRead(self.port)
+        print(val)
+        return val

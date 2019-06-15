@@ -12,4 +12,6 @@ class SensorDHT(Sensor):
         pinMode(self.port, 'INPUT')
 
     def get_data(self) -> list:
-        return dht(self.port, self.dht_type)
+        val = dht(self.port, self.dht_type)
+        print(val)
+        return val

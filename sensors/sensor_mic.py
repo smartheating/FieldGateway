@@ -18,4 +18,6 @@ class SensorMic(Sensor):
             for _ in range(self.send_interval * 4):
                 reads.append(digitalRead(self.port))
                 time.sleep(1/4)
-        return mean(reads)
+        val = mean(reads)
+        print(val)
+        return val
