@@ -1,4 +1,4 @@
-cloud_gateway_ip: 192.168.178.1
+cloud_gateway_ip: 52.207.119.17
 cloud_gateway_port: 9001
 sensors:
   - script_path: 'tests/test_data/test_sensor_1.py'
@@ -7,6 +7,8 @@ sensors:
     module_ip: '0.0.0.0'
     module_port: '12345'
     module_name: 'Test Sensor 1'
+    tags:
+      - test_1
     params:
       param_1: 42
       param_2: 'params can be used in the user defined sensor class for the reading procedure. They are provided in the "set_params" function'
@@ -14,6 +16,8 @@ sensors:
     send_interval: 1.2
     reads_per_minute: 125
     module_name: 'Test Sensor 2'
+    tags:
+      - test_2
     params:
       param_a: 27
       param_b: 'some arbitrary param'

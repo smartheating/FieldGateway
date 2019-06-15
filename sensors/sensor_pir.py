@@ -19,4 +19,4 @@ class SensorPIR(Sensor):
             time.sleep(float(self.send_interval) / n)
         val = mean(reads)
         logging.info('{} read values: {}'.format(self.module_name, reads))
-        return val
+        return {self.tags[0]: val}

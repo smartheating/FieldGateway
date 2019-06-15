@@ -47,6 +47,7 @@ class ModuleFactory:
         module.set_cloud_gateway_ip(self.conf.get('cloud_gateway_ip', ''))
         module.set_cloud_gateway_port(self.conf.get('cloud_gateway_port', ''))
         module.set_params(conf.get('params', ''))
+        module.set_tags(conf.get('tags', []))
 
     def _set_module_name_and_eventually_register(self, module):
         if module.module_name in self.device_ids.keys():

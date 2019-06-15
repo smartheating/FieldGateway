@@ -6,6 +6,9 @@ sensors:
     reads_per_minute: 40
     module_id: 0
     module_name: 'dht_0'
+    tags:
+      - temp
+      - humidity
     params:
       port: 7
       dht_type: 0

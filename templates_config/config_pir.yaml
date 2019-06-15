@@ -6,6 +6,8 @@ sensors:
     reads_per_minute: 240
     module_id: 0
     module_name: 'pir_0'
+    tags:
+      - pir
     params:
       port: 8
 

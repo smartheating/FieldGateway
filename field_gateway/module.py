@@ -16,6 +16,7 @@ class Module:
     script_path = ''
     send_interval = -1
     value_type = ''
+    tags = []
     cloud_gateway_ip = ''
     cloud_gateway_port = 9001
     response_callback = None
@@ -78,6 +79,9 @@ class Module:
     def set_value_type(self, value_type: str):
         self.value_type = value_type
 
+    def set_tags(self, tags: list):
+        self.tags = tags
+
     def set_cloud_gateway_ip(self, cloud_gateway_ip: str):
         self.cloud_gateway_ip = cloud_gateway_ip
 
@@ -106,7 +110,7 @@ class Sensor(Module, Thread):
         raise NotImplementedError
 
     @abstractmethod
-    def get_data(self):
+    def get_data(self) -> dict:
         raise NotImplementedError
 
     def run(self) -> None:
@@ -131,22 +135,17 @@ class Sensor(Module, Thread):
                     pass
 
     def create_event_messages(self, data):
-        def _create(val):
+        def _create(tag, val):
             return json.dumps({
                 'module_id': self.module_id,
                 'module_name': self.module_name,
                 'timestamp': datetime.datetime.now().isoformat(),
+                'tag': tag,
                 'value_type': str(type(val).__name__),
                 'value': str(val)
             })
-        if type(data) == list:
-            msg_values = [_create(val) for val in data]
-        elif type(data) in [int, float, str, bool]:
-            msg_values = [_create(data)]
-        else:
-            raise ValueError('The function "get_data" function must return one of the following datatypes: '
-                             'int, float, str, bool, list. If you use a list, make sure that it only contains '
-                             'values of the following types: int, float, str, bool')
+
+        msg_values = [_create(tag, val) for tag, val in data.items()]
         return msg_values
 
 

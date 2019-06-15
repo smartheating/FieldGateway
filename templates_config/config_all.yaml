@@ -6,6 +6,8 @@ sensors:
     reads_per_minute: 240
     module_id: 0
     module_name: 'mic_0'
+    tags:
+      - mic
     params:
       port: 0
   - script_path: 'sensors/sensor_dht.py'
@@ -13,6 +15,9 @@ sensors:
     reads_per_minute: 40
     module_id: 0
     module_name: 'dht_0'
+    tags:
+      - temp
+      - humidity
     params:
       port: 7
       dht_type: 0
@@ -21,6 +26,8 @@ sensors:
     reads_per_minute: 240
     module_id: 0
     module_name: 'pir_0'
+    tags:
+      - pir
     params:
       port: 8
 actuators:

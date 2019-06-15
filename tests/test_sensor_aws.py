@@ -2,7 +2,7 @@ from test_data.test_sensor_1 import SensorDummy1
 import json
 import time
 
-cloud_gateway_ip = '54.165.131.127'
+cloud_gateway_ip = '52.207.119.17'
 cloud_gateway_port = 9001
 wait_seconds = 3
 

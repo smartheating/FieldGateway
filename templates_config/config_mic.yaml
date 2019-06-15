@@ -6,6 +6,8 @@ sensors:
     reads_per_minute: 240
     module_id: 0
     module_name: 'mic_0'
+    tags:
+      - mic
     params:
       port: 0
 

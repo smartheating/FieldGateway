@@ -6,7 +6,7 @@ import os
 import yaml
 
 
-cloud_gateway_ip = '54.165.131.127'
+cloud_gateway_ip = '52.207.119.17'
 cloud_gateway_port = 9001
 root_path = get_project_root()
 os.chdir(str(root_path))

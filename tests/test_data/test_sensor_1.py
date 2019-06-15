@@ -12,7 +12,7 @@ class SensorDummy1(Sensor):
         self.param_1 = params['param_1']
         self.param_2 = params['param_2']
 
-    def get_data(self) -> list:
+    def get_data(self) -> dict:
         self.count += 1
         print('get data was called {} times'.format(self.count))
         val1 = []
@@ -20,4 +20,4 @@ class SensorDummy1(Sensor):
         for _ in range(self.get_number_of_reads_per_send_interval()):
             val1.append(random() * 40)
             val2.append(100 + (random() * 20))
-        return [mean(val1), mean(val2)]
+        return {'tag_1': mean(val1), 'tag_2': mean(val2)}

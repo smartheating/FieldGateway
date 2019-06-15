@@ -36,11 +36,12 @@ class TestSensor:
         test value of type int
         """
         sensor = self._get_dummy_sensor()
-        list_msg = sensor.create_event_messages(23)
+        list_msg = sensor.create_event_messages({'test': 23})
         msg = json.loads(list_msg[0])
         assert len(list_msg) == 1
         assert msg['module_name'] == 'test_get_sensor'
         assert msg['value_type'] == 'int'
+        assert msg['tag'] == 'test'
         assert msg['value'] == '23'
 
     def test_float_message(self):
@@ -48,7 +49,7 @@ class TestSensor:
         test value of type float
         """
         sensor = self._get_dummy_sensor()
-        msg_list = sensor.create_event_messages(23.3)
+        msg_list = sensor.create_event_messages({'test': 23.3})
         msg = json.loads(msg_list[0])
         assert msg['value_type'] == 'float'
         assert msg['value'] == '23.3'
@@ -58,7 +59,7 @@ class TestSensor:
         test value of type str
         """
         sensor = self._get_dummy_sensor()
-        msg_list = sensor.create_event_messages('asdf')
+        msg_list = sensor.create_event_messages({'test': 'asdf'})
         msg = json.loads(msg_list[0])
         assert msg['value_type'] == 'str'
         assert msg['value'] == 'asdf'
@@ -68,7 +69,7 @@ class TestSensor:
         test value of type list
         """
         sensor = self._get_dummy_sensor()
-        msg_list = sensor.create_event_messages([23.3, 'wat'])
+        msg_list = sensor.create_event_messages({'test_1': 23.3, 'test_2': 'wat'})
         msg_0 = json.loads(msg_list[0])
         msg_1 = json.loads(msg_list[1])
         assert msg_0['value_type'] == 'float'

@@ -9,6 +9,6 @@ class SensorDummy1(Sensor):
         self.param_a = params['param_a']
         self.param_b = params['param_b']
 
-    def get_data(self) -> list:
+    def get_data(self) -> dict:
         print('get data was called')
-        return [1.23, 4.56]
+        return {'tag_1': 1.23, 'tag_2': 4.56}
