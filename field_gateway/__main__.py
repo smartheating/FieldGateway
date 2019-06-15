@@ -1,10 +1,16 @@
 from os import environ
-from commons import read_device_ids
+from commons import read_device_ids, get_project_root
 import yaml
-from commons import store_device_ids, print_modules
+from commons import store_device_ids, log_modules
 from module_factory import ModuleFactory
 from threading import Event
+import logging
 
+logging.basicConfig(
+    filename=str(get_project_root() / 'log_field_gateway.log'),
+    level=logging.INFO,
+    format='%(asctime)-15s %(message)s')
+logging.info("waaaaaaat")
 if __name__ == '__main__':
 
     # read the environment variables
@@ -20,7 +26,7 @@ if __name__ == '__main__':
     # load the sensor modules'
     module_factory = ModuleFactory(conf, device_ids)
     sensors = module_factory.get_sensors()
-    print_modules(sensors)
+    log_modules(sensors)
     # store updated device ids
     store_device_ids(module_factory.device_ids)
 

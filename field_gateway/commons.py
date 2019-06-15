@@ -32,7 +32,8 @@ def get_project_root() -> Path:
     return Path(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))) / '..'
 
 
-def print_modules(l_modules: [Module]):
+def log_modules(l_modules: [Module]):
     from tabulate import tabulate
+    import logging
     tab_data = [[m.module_name, m.module_type, m.module_id, m.module_ip, m.module_port, m.cloud_gateway_ip, m.cloud_gateway_port, m.reads_per_minute, m.send_interval, m.script_path] for m in l_modules]
-    print(tabulate(tab_data, headers=['name', 'type', 'module_id', 'module_ip', 'module_port', 'cloud_gateway_ip', 'cloud_gateway_port', 'reads_per_minute', 'send_interval', 'script_path']))
+    logging.info('\n{}'.format(tabulate(tab_data, headers=['name', 'type', 'module_id', 'module_ip', 'module_port', 'cloud_gateway_ip', 'cloud_gateway_port', 'reads_per_minute', 'send_interval', 'script_path'])))
