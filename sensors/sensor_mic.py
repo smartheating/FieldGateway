@@ -1,5 +1,5 @@
 from module import Sensor
-from grovepi import pinMode, digitalRead
+from grovepi import pinMode, analogRead
 import time
 from statistics import mean
 

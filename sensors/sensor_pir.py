@@ -1,7 +1,11 @@
 from module import Sensor
+<<<<<<< HEAD
 from grovepi import pinMode, analogRead
 import time
 from statistics import mean
+=======
+from grovepi import pinMode, digitalRead
+>>>>>>> eba8c1af4e5f9deb722186e9c4d36886cf2cd9fd
 
 
 class SensorPIR(Sensor):
