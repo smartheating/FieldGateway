@@ -20,7 +20,6 @@ def prepare_logging():
             logging.StreamHandler()]
     )
     logging.info("\nStarted FieldGateway\n====================")
-    logging.debug("WAAAAAAAAAAAT")
 
 
 def read_device_ids():
