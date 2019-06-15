@@ -28,9 +28,11 @@ if __name__ == '__main__':
     sensors = module_factory.get_sensors()
     log_modules(sensors)
     # store updated device ids
+    logging.info('Store device ids: {}'.format(device_ids))
     store_device_ids(module_factory.device_ids)
 
     for sensor in sensors:
+        logging.info('{} starting'.format(sensor.module_name))
         sensor.start()
     try:
         Event().wait()

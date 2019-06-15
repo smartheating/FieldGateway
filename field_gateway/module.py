@@ -91,6 +91,7 @@ class Module:
     def get_number_of_reads_per_send_interval(self):
         return int(self.reads_per_minute / 60 * self.send_interval)
 
+
 class Sensor(Module, Thread):
 
     def __init__(self):
@@ -109,12 +110,12 @@ class Sensor(Module, Thread):
         raise NotImplementedError
 
     def run(self) -> None:
-        print('started {}'.format(self.module_name))
+        logging.info('started {}'.format(self.module_name))
         while not self.stopped.wait(self.send_interval):
             self._read_and_send()
 
     def _read_and_send(self):
-        logging.DEBUG('{} requesting data'.format(self.module_name))
+        logging.debug('{} requesting data'.format(self.module_name))
         list_msg = self.create_event_messages(
             self.get_data())
         for msg in list_msg:
