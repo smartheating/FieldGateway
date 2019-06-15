@@ -3,6 +3,7 @@
 # Edit at https://www.gitignore.io/?templates=git,linux,macos,python,windows,pycharm,virtualenv
 
 ### Own rules ###
+nohup.out
 device_ids.json
 
 ### Git ###

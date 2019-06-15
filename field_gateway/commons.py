@@ -23,7 +23,7 @@ def read_device_ids():
 
 def store_device_ids(device_ids):
     import json
-    with open(str(get_project_root() / 'device_ids.json'), 'r') as f:
+    with open(str(get_project_root() / 'device_ids.json'), 'w') as f:
         json.dump(device_ids, f)
 
 
