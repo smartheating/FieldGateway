@@ -1,6 +1,7 @@
 from module import Sensor
 from grovepi import pinMode, dht
-
+import time
+from statistics import mean
 
 class SensorDHT(Sensor):
     port = None
@@ -12,6 +13,10 @@ class SensorDHT(Sensor):
         pinMode(self.port, 'INPUT')
 
     def get_data(self) -> list:
-        val = dht(self.port, self.dht_type)
-        print(val)
+        reads = []
+        n = self.get_number_of_reads_per_send_interval()
+        for _ in range(n):
+            reads.append(dht(self.port, self.dht_type))
+            time.sleep(float(self.send_interval) / n)
+        val = mean(reads)
         return val

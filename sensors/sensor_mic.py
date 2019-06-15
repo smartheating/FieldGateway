@@ -13,11 +13,9 @@ class SensorMic(Sensor):
 
     def get_data(self):
         reads = []
-        if self.send_interval > 1:
-            # reads for times per second
-            for _ in range(self.send_interval * 4):
-                reads.append(digitalRead(self.port))
-                time.sleep(1/4)
+        n = self.get_number_of_reads_per_send_interval()
+        for _ in range(n):
+            reads.append(digitalRead(self.port))
+            time.sleep(float(self.send_interval) / n)
         val = mean(reads)
-        print(val)
         return val

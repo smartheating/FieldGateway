@@ -1,5 +1,7 @@
 from module import Sensor
 from grovepi import pinMode, analogRead
+import time
+from statistics import mean
 
 
 class SensorPIR(Sensor):
@@ -10,6 +12,10 @@ class SensorPIR(Sensor):
         pinMode(self.port, 'INPUT')
 
     def get_data(self):
-        val = analogRead(self.port)
-        print(val)
+        reads = []
+        n = self.get_number_of_reads_per_send_interval()
+        for _ in range(n):
+            reads.append(analogRead(self.port))
+            time.sleep(float(self.send_interval) / n)
+        val = mean(reads)
         return val
