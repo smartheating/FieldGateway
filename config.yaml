@@ -1,4 +1,5 @@
-cloud_gateway_ip: 192.168.178.1
+cloud_gateway_ip: '54.165.131.127'
+cloud_gateway_port: 9001
 sensors:
   - script_path: 'sensors/sensor_mic.py'
     send_interval: 10
