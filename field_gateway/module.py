@@ -93,6 +93,9 @@ class Module:
     def set_params(self, params):
         raise NotImplementedError
 
+    def thread_init(self):
+        raise NotImplementedError
+
     def get_number_of_reads_per_send_interval(self):
         return int(self.reads_per_minute / 60 * self.send_interval)
 
@@ -115,6 +118,7 @@ class Sensor(Module, Thread):
         raise NotImplementedError
 
     def run(self) -> None:
+        self.thread_init()
         logging.info('started {}'.format(self.module_name))
         while not self.stopped.is_set():
             t = time.time()

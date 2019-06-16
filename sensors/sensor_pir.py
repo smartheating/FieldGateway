@@ -1,5 +1,4 @@
 from module import Sensor
-from grovepi import pinMode, digitalRead
 import time
 from statistics import mean
 import logging
@@ -9,6 +8,9 @@ class SensorPIR(Sensor):
 
     def set_params(self, params):
         self.port = params['port']
+
+    def thread_init(self):
+        from grovepi import pinMode, digitalRead
         pinMode(self.port, 'INPUT')
 
     def get_data(self):
