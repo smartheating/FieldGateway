@@ -9,16 +9,6 @@ sensors:
       - mic
     params:
       port: 0
-  - script_path: 'sensors/sensor_dht.py'
-    send_interval: 10
-    reads_per_minute: 40
-    module_name: 'dht_0'
-    tags:
-      - temp
-      - humidity
-    params:
-      port: 7
-      dht_type: 0
   - script_path: 'sensors/sensor_pir.py'
     send_interval: 10
     reads_per_minute: 240
