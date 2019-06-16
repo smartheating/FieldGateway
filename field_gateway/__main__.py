@@ -43,7 +43,8 @@ if __name__ == '__main__':
         sensor.start()
     try:
         Event().wait()
-    except KeyboardInterrupt:
+    except Exception:
+        logging.info('Application stopped')
         for sensor in sensors:
             sensor.stopped.set()
 
