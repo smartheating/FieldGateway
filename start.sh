@@ -2,4 +2,4 @@
 
 source environ.sh
 
-python3 field_gateway/__main__.py
+nohup python3 field_gateway/__main__.py </dev/null >/dev/null 2>&1 &
