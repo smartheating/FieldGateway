@@ -25,12 +25,12 @@ if __name__ == '__main__':
     sensors = module_factory.get_sensors()
     log_modules(sensors)
     # store updated device ids
-    logging.info('Store device ids: {}'.format(device_ids))
+    logging.info('Store device ids: {}'.format(d<evice_ids))
     store_device_ids(module_factory.device_ids)
 
     for sensor in sensors:
         # Test every sensor
-        if environ.get('TESTING', 'no') is not 'no':
+        if environ.get('TESTING', 'no') != 'no':
             logging.info('{} testing with parameters'.format(sensor.module_name))
             try:
                 logging.info('{} test result: {}'.format(sensor.module_name, sensor.get_data()))
