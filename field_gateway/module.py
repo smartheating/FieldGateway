@@ -2,6 +2,7 @@ from abc import abstractmethod
 import json
 from threading import Thread, Event
 import requests
+import time
 import datetime
 import logging
 
@@ -115,8 +116,12 @@ class Sensor(Module, Thread):
 
     def run(self) -> None:
         logging.info('started {}'.format(self.module_name))
-        while not self.stopped.wait(self.send_interval):
+        while not self.stopped.is_set():
+            t = time.time()
             self._read_and_send()
+            remaining_time = self.send_interval - (time.time() - t)
+            if remaining_time > 0:
+                time.sleep(remaining_time)
 
     def _read_and_send(self):
         logging.debug('{} requesting data'.format(self.module_name))
