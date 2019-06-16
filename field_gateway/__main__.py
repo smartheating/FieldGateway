@@ -29,13 +29,15 @@ if __name__ == '__main__':
     store_device_ids(module_factory.device_ids)
 
     for sensor in sensors:
-        logging.info('{} testing with parameters'.format(sensor.module_name))
-        try:
-            logging.info('{} test result: {}'.format(sensor.module_name, sensor.get_data()))
-        except IndexError as e:
-            logging.error(e)
-            logging.error('Hint: You might have forgotten to set the tags in config.yaml')
-            raise e
+        # Test every sensor
+        if environ.get('TESTING', 'no') is not 'no':
+            logging.info('{} testing with parameters'.format(sensor.module_name))
+            try:
+                logging.info('{} test result: {}'.format(sensor.module_name, sensor.get_data()))
+            except IndexError as e:
+                logging.error(e)
+                logging.error('Hint: You might have forgotten to set the tags in config.yaml')
+                raise e
 
         logging.info('{} starting'.format(sensor.module_name))
         sensor.start()
